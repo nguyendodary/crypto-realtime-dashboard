@@ -197,13 +197,6 @@ export interface SearchData {
 
 export type TimeFrame = "1" | "7" | "14" | "30" | "90" | "180" | "365" | "max";
 
-export interface PriceDataPoint {
-  timestamp: number;
-  price: number;
-  volume?: number;
-  market_cap?: number;
-}
-
 export interface MarketChartData {
   prices: [number, number][];
   market_caps: [number, number][];
@@ -219,13 +212,6 @@ export interface WatchlistItem {
   price_change_percentage_24h: number | null;
   market_cap_rank: number | null;
   added_at: number;
-}
-
-export interface CoinGeckoError {
-  status: {
-    error_code: number;
-    error_message: string;
-  };
 }
 
 export type SortField = "market_cap_rank" | "name" | "current_price" | "price_change_percentage_24h" | "total_volume" | "market_cap";

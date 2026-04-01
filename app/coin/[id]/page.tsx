@@ -25,7 +25,7 @@ import {
   formatLargeNumber,
   cn,
 } from "@/lib/utils";
-import type { TimeFrame, WatchlistItem } from "@/types";
+import type { TimeFrame } from "@/types";
 
 // Dynamic imports for charts - loaded lazily
 const PriceChart = lazy(() =>

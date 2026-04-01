@@ -4,7 +4,7 @@ import { useRef, useEffect, useState, memo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useOHLCData } from "@/hooks/useCrypto";
-import type { TimeFrame, OHLCData } from "@/types";
+import type { TimeFrame } from "@/types";
 import type { UTCTimestamp } from "lightweight-charts";
 
 interface Props {

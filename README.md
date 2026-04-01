@@ -1,10 +1,10 @@
 # CryptoPulse
 
-Real-time cryptocurrency analytics dashboard built with Next.js 14, CoinGecko API, and lightweight-charts.
+Real-time cryptocurrency analytics dashboard built with Next.js 14, CoinGecko API, and TradingView's lightweight-charts.
 
 ## Features
 
-- **Live market data** — Top 250 coins by market cap with sorting and pagination
+- **Live market data** — Top 250 coins by market cap with client-side sorting and pagination
 - **Candlestick charts** — Interactive OHLC charts via TradingView's lightweight-charts
 - **Price & volume charts** — Area and bar charts with Recharts
 - **Real-time WebSocket** — Binance WebSocket for live price updates
@@ -12,7 +12,7 @@ Real-time cryptocurrency analytics dashboard built with Next.js 14, CoinGecko AP
 - **Watchlist** — Save favorite coins (persisted in localStorage)
 - **Dark/Light theme** — Toggle with system preference detection
 - **Responsive** — Fully mobile-friendly layout
-- **Rate-limited API proxy** — Server-side CoinGecko proxy with caching and throttling
+- **API proxy** — Server-side CoinGecko proxy with caching and throttling
 
 ## Tech Stack
 
@@ -28,48 +28,42 @@ Real-time cryptocurrency analytics dashboard built with Next.js 14, CoinGecko AP
 | Real-time | Binance WebSocket |
 | API | CoinGecko (via Next.js API routes) |
 
-## Prerequisites
-
-- Node.js 18+
-- npm or pnpm
-- Docker & Docker Compose (optional)
-
 ## Run Locally
 
-### 1. Clone the repository
+### 1. Clone
 
 ```bash
 git clone https://github.com/nguyendodary/crypto-realtime-dashboard.git
 cd crypto-realtime-dashboard
 ```
 
-### 2. Install dependencies
+### 2. Install
 
 ```bash
 npm install
 ```
 
-### 3. Set up environment variables (optional)
+### 3. Environment (optional)
 
 ```bash
 cp .env.example .env
 ```
 
-Edit `.env` to add your CoinGecko API key if you have one (not required for the free tier):
+Add your CoinGecko API key if you have one (not required for the free tier):
 
 ```env
 COINGECKO_API_KEY=your-key-here
 ```
 
-### 4. Start the development server
+### 4. Start
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000).
 
-### Available Scripts
+### Scripts
 
 | Command | Description |
 |---|---|
@@ -95,34 +89,23 @@ To stop:
 docker compose down
 ```
 
-### Option 2: Docker build directly
+### Option 2: Docker build
 
 ```bash
-# Build the image
 docker build -t cryptopulse .
-
-# Run the container
 docker run -d -p 3000:3000 --name cryptopulse cryptopulse
 ```
 
 To stop and remove:
 
 ```bash
-docker stop cryptopulse
-docker rm cryptopulse
+docker stop cryptopulse && docker rm cryptopulse
 ```
 
-### With API key (Docker)
+### With API key
 
 ```bash
 docker run -d -p 3000:3000 -e COINGECKO_API_KEY=your-key cryptopulse
-```
-
-Or in `docker-compose.yml`:
-
-```yaml
-environment:
-  - COINGECKO_API_KEY=your-key
 ```
 
 ## Project Structure
@@ -130,23 +113,23 @@ environment:
 ```
 ├── app/
 │   ├── api/                    # Next.js API routes (CoinGecko proxy)
-│   │   ├── helper.ts           # Rate limiter + cache
-│   │   ├── global/
-│   │   ├── coins/
-│   │   └── search/
-│   ├── coin/[id]/page.tsx      # Coin detail page
-│   ├── layout.tsx              # Root layout
+│   │   ├── helper.ts           # Rate limiter + in-memory cache
+│   │   ├── global/             # Global market stats
+│   │   ├── coins/              # Markets, coin detail, OHLC, market chart
+│   │   └── search/             # Search + trending
+│   ├── coin/[id]/page.tsx      # Coin detail with charts and stats
+│   ├── layout.tsx              # Root layout with providers
 │   └── page.tsx                # Dashboard homepage
 ├── components/
-│   ├── charts/                 # Price, Candlestick, Volume charts
-│   ├── market/                 # MarketTable, GlobalStats, Watchlist
-│   ├── layout/                 # Header, ThemeToggle
-│   ├── search/                 # Command palette (Cmd+K)
-│   └── ui/                     # Button, Card, Badge, Skeleton
+│   ├── charts/                 # PriceChart, CandlestickChart, VolumeChart, TimeframeSelector
+│   ├── market/                 # MarketTable, GlobalStats, TrendingCoins, Categories, Watchlist
+│   ├── layout/                 # Header, ThemeToggle, ClientLayout
+│   ├── search/                 # CommandSearch (Cmd+K palette)
+│   └── ui/                     # Button, Card, Badge, Skeleton, Input, Dialog, Tabs
 ├── hooks/                      # useCrypto, useWebSocket, useDebounce
 ├── lib/
-│   ├── api.ts                  # API client
-│   ├── store.ts                # Zustand store
+│   ├── api.ts                  # API client (fetch-based)
+│   ├── store.ts                # Zustand store (watchlist, live prices, UI state)
 │   ├── websocket.ts            # Binance WebSocket manager
 │   └── utils.ts                # Formatting utilities
 └── types/                      # TypeScript type definitions
@@ -161,7 +144,7 @@ environment:
 3. Add `COINGECKO_API_KEY` as an environment variable (optional)
 4. Deploy
 
-### Docker / Any Host
+### Docker
 
 The Docker image is self-contained and runs on any platform that supports Docker.
 
