@@ -117,6 +117,7 @@ docker run -d -p 3000:3000 -e COINGECKO_API_KEY=your-key cryptopulse
 ├── next.config.js
 ├── package.json
 ├── postcss.config.js
+├── public/
 ├── tailwind.config.ts
 ├── tsconfig.json
 ├── app/
