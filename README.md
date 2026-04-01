@@ -111,42 +111,72 @@ docker run -d -p 3000:3000 -e COINGECKO_API_KEY=your-key cryptopulse
 ## Project Structure
 
 ```
+├── .env.example
+├── docker-compose.yml
+├── Dockerfile
+├── next.config.js
+├── package.json
+├── postcss.config.js
+├── tailwind.config.ts
+├── tsconfig.json
 ├── app/
-│   ├── api/                    # Next.js API routes (CoinGecko proxy)
-│   │   ├── helper.ts           # Rate limiter + in-memory cache
-│   │   ├── global/             # Global market stats
-│   │   ├── coins/              # Markets, coin detail, OHLC, market chart
-│   │   └── search/             # Search + trending
-│   ├── coin/[id]/page.tsx      # Coin detail with charts and stats
-│   ├── layout.tsx              # Root layout with providers
-│   └── page.tsx                # Dashboard homepage
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── page.tsx
+│   ├── api/
+│   │   ├── helper.ts
+│   │   ├── coins/
+│   │   │   ├── categories/route.ts
+│   │   │   ├── markets/route.ts
+│   │   │   └── [id]/
+│   │   │       ├── route.ts
+│   │   │       ├── market_chart/route.ts
+│   │   │       └── ohlc/route.ts
+│   │   ├── global/route.ts
+│   │   └── search/
+│   │       ├── route.ts
+│   │       └── trending/route.ts
+│   ├── coin/[id]/page.tsx
+│   └── dashboard/page.tsx
 ├── components/
-│   ├── charts/                 # PriceChart, CandlestickChart, VolumeChart, TimeframeSelector
-│   ├── market/                 # MarketTable, GlobalStats, TrendingCoins, Categories, Watchlist
-│   ├── layout/                 # Header, ThemeToggle, ClientLayout
-│   ├── search/                 # CommandSearch (Cmd+K palette)
-│   └── ui/                     # Button, Card, Badge, Skeleton, Input, Dialog, Tabs
-├── hooks/                      # useCrypto, useWebSocket, useDebounce
+│   ├── charts/
+│   │   ├── CandlestickChart.tsx
+│   │   ├── PriceChart.tsx
+│   │   ├── TimeframeSelector.tsx
+│   │   └── VolumeChart.tsx
+│   ├── layout/
+│   │   ├── ClientLayout.tsx
+│   │   ├── Header.tsx
+│   │   └── ThemeToggle.tsx
+│   ├── market/
+│   │   ├── Categories.tsx
+│   │   ├── GlobalStats.tsx
+│   │   ├── MarketTable.tsx
+│   │   ├── TrendingCoins.tsx
+│   │   └── Watchlist.tsx
+│   ├── search/
+│   │   └── CommandSearch.tsx
+│   └── ui/
+│       ├── badge.tsx
+│       ├── button.tsx
+│       ├── card.tsx
+│       ├── dialog.tsx
+│       ├── input.tsx
+│       ├── skeleton.tsx
+│       └── tabs.tsx
+├── hooks/
+│   ├── useCrypto.ts
+│   ├── useDebounce.ts
+│   └── useWebSocket.ts
 ├── lib/
-│   ├── api.ts                  # API client (fetch-based)
-│   ├── store.ts                # Zustand store (watchlist, live prices, UI state)
-│   ├── websocket.ts            # Binance WebSocket manager
-│   └── utils.ts                # Formatting utilities
-└── types/                      # TypeScript type definitions
+│   ├── api.ts
+│   ├── providers.tsx
+│   ├── store.ts
+│   ├── utils.ts
+│   └── websocket.ts
+└── types/
+    └── index.ts
 ```
-
-## Deployment
-
-### Vercel
-
-1. Push to GitHub
-2. Import the repo on [Vercel](https://vercel.com)
-3. Add `COINGECKO_API_KEY` as an environment variable (optional)
-4. Deploy
-
-### Docker
-
-The Docker image is self-contained and runs on any platform that supports Docker.
 
 ## API Rate Limiting
 
